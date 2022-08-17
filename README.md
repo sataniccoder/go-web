@@ -13,8 +13,8 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 # TO-DO
 - [X] basic hosting service
 - [X] support multiple files and live updates
-- [ ] image support
-- [ ] video support
+- [X] image support
+- [X] video support
 - [ ] add a config and a config reader
 - [ ] add a control pannel w/ login
 - [ ] add mulit threading so the service doesn't get over run
