@@ -15,7 +15,8 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] support multiple files and live updates
 - [X] image support
 - [X] video support
-- [ ] add a config and a config reader
+- [X] add a config and a config reader
 - [ ] add a control pannel w/ login
 - [ ] add mulit threading so the service doesn't get over run
+- [ ] make https secure
 - [ ] secure the program to patch any venruabiliyies that pop-up
