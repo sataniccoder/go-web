@@ -34,25 +34,3 @@ url: http://127.0.0.1:` + data_list[1] + `/index.html
 	log.Fatal(http.ListenAndServe(":"+data_list[1], nil))
 }
 
-/*
-config example:
-
-
-
-TODO
-1) comment!!!
-2) config
-3) config reader
-4) config backup
-
-  gocode
-  guru
-  gorename
-  gotests
-  gomodifytags
-  impl
-  fillstruct
-  dlv
-  staticcheck
-  goimports
-*/
