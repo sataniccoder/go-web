@@ -17,6 +17,9 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] video support
 - [X] add a config and a config reader
 - [ ] add a control pannel w/ login
+- [ ] abllity to add new files using control pannel
+- [ ] edit source code and add new lines using control pannel
+- [ ] check for updates whilst using control pannel
 - [ ] add mulit threading so the service doesn't get over run
 - [ ] make https secure
 - [ ] secure the program to patch any venruabiliyies that pop-up
