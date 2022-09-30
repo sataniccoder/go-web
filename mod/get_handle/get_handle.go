@@ -33,31 +33,21 @@ func Load_page(w http.ResponseWriter, r *http.Request) {
 		}
 
 		path = "templates/html/" + path
-		content, err := ioutil.ReadFile(path)
+		http.ServeFile(w, r, path)
 
-		// if there is an error then the page either doesn't exisst ot there's an internal error
-		// best to make the user belive it doesn't exsist and return the accchtual error
-		if err != nil {
-			fmt.Println("error: ", err)
-			fmt.Fprintf(w, "the page your looking for doesn't exist!")
-		} else {
-			fmt.Fprintf(w, string(content))
-		}
 	} else if strings.Contains(path, ".css") {
 		if verb == "1" {
 			fmt.Println("loading css...")
 		}
-
-		path = "templates/css/" + path
-		content, err := ioutil.ReadFile(path)
-		path = "templates/" + path
-
-		if err != nil {
-			fmt.Println("error: ", err)
-			fmt.Fprintf(w, "the page your looking for doesn't exist!")
+		if strings.Contains(path, "admin/") {
+			path = "templates/" + path
 		} else {
-			fmt.Fprintf(w, string(content))
+			path = "templates/css/" + path
 		}
+
+		fmt.Println(path)
+		http.ServeFile(w, r, path)
+
 	} else if strings.Contains(path, "img") {
 		path = "templates/" + path
 

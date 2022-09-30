@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Make sure if you add a .css link to a admin file you put /admin/css/ before it, it doesn't really matter
+        it's mainly there to hep keep derectirs free-->
+        <link rel="stylesheet" href="/admin/css/main.css">
+    </head>
+    <body>
+        <form action="/admin/main/admin_set" method="post">
+          
+            <div class="container">
+              <label for="uname"><b>Username</b></label>
+              <input type="text" placeholder="Enter Username" name="name" required>
+          
+              <label for="psw"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="pswd" required>
+          
+              <button type="submit">Login</button>
+            </div>
+          </form>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>GO-WEB ADMIN INDEX</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/admin/css/main.css">
+    </head>
+    <body>
+        <h3>Welcome.</h3>
+        <p>
+            if you do not like the way this page looks well don't worry! <br>
+            you can edit the admmin/admin.css file anytime you want to make it look better! <br>
+            here you have full controll of your server, you can upload new files, edit old ones and download them! <br>
+            you can even update the source code of the site live! this makes it much esier to delpoy new fetures without a complete system shutdown!
+        </p>
+        <li>
+            <ul><a href="/admin/main/view_page.html">view current pages and do what you wish with them</a></ul>
+            <ul><a href="/admin/main/change/admin_pages.html">edit the admin page's to your liking!</a></ul>
+            <ul><a href="https://placeholder.com">install plugins</a></ul>
+            <ul><a href="https://placeholder.com">admin toutorial</a></ul>
+            <ul><a href="/admin/main/stats.html">view the server stat's</a></ul>
+        </li>
+
+
+        <p>
+            sorry for the base site looking bad, css is not my fortue, also their probbaly is going to be alot of spelling mistakes <br>
+            if you spot one please let me know! and me and my team will continue to improve GO-WEB! <br>
+            every one desevre a website!
+        </p>
+    </body>
+</html>
+
+
+
+
+
+<!--
+    ADMIN HTML HELP!
+    for all links to html pages make sure to add admin/ if it's an admin page before you go live with the server
+
+    you can also custmise the admin pages as much as you want, you can change the way you want the page to look,
+    change the info the stats page shows and anything else you want
+
+    changing the stats:
+        to change the stats page to display more stats you will have to edit and recompile the acctual go-web.go program
+        if you just want it to look diffrently then you can easily just edit and uplaod a new html or css page for it
+        if you add another element make sure the id of the item you want it to be displayed as is set to it's name in the JSON lodaer
+        this means it will be displayed, if it's name is diffrent then you won't be able to display the info
+    
+    changing the html/css (admin only):
+        if you wish to change any admin page's looks you can do this at the /admin/change/admin_pages.html url
+        this makes it esier to upload/download the html file, this also helps seprate the main html files clients can see
+        WARNING: you can't delete any of these pages on the site unless you enable it in the .conf file
+
+    uploading new files and downloading them (main html):
+        if you wish to upload/download a html/css page that your clients can see use the /admin/main/view_page.html url
+        this will allow you to do anything you need with it, you can even delete these pages unlike the admin one (unless you enable it in the .conf file)
+-->
+<!--
+    ADMIN HELP!
+-->

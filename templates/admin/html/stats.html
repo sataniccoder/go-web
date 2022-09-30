@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>GO-WEB ADMIN STATS</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"  type="text/css" href="admin/admin.css">
+
+        <script>
+            function set_data(){
+                // load the data
+                var data = {"ram_usage": "000",
+                            "cpu_usgae": "000",
+                            "pin_change": "NO",
+                            "version": "0.1",
+                            "plugins": ["NONE", "NONE"],
+                            "uptime": "0.01"
+                        }
+
+
+                        // loop through the entire json array and set the values, this is better then doing it manualy
+                        for(x in data){
+                            var el = document.getElementById(x).innerHTML = String(x).toUpperCase() + ": " + data[x]
+                        }
+            }
+        </script>
+
+    </head>
+    <body>
+
+        <h3>Stats.</h3>
+        <p id="ram_usage">RAM: </p>
+        <p id="cpu_usgae">CPU: </p>
+        <p id="pin_change">PIN CHANGE: </p>
+        <p id="version">VERSION: </p>
+        <p id="uptime">UPTIME: </p>
+        <ul id="plugins">
+
+        </ul>
+        <button onclick="set_data()">refresh data</button>
+    </body>
+</html>
