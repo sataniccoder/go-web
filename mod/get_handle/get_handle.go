@@ -19,6 +19,14 @@ func Verb_update(verbrose string) {
 func Load_page(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path[1:]
 
+	if path == "" {
+		// means it's the index path
+		if verb == "1" {
+			fmt.Println("GET page: index.html")
+		}
+		http.ServeFile(w, r, "templates/html/index.html")
+	}
+
 	// uses verb as verbrose, allows for cleaner and easier to understand output
 	// to edit this change the config.conf setting
 	if verb == "1" {

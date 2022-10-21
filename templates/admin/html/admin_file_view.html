@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>GO-WEB ADMIN INDEX</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/admin/css/main.css">
+    <script type='text/javascript'>
+function pop_js(){ //(path){
+    // create a popup
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+        content.style.display = "none";
+        } else {
+        content.style.display = "block";
+        }
+    });
+    }
+}
+function load_files(){
+    // get the html content, make sure to have the <div> section as well
+    // all file links must have the class file_man and must have a valid link to the file in your systems
+    // but it must start with /files_upload/ or /files_download/ (eg: /files_download/html/index.html), it must also be in the onclick instead of a herf this is so go-web! knows that you are wanting to donwload a file
+    // you must also be loggedin as an admin
+    /*
+    example:
+        <div id="file" class="file">                                                             -> div section start
+            <button type="button" class="collapsible" onclick="pop_js()">file_name</button>      -> start of the first file popup
+            <div class="content">                                                                -> start of the "hidden" content
+                <p>Download or Upload? Click the buttons below</p>                               -> what's inside the "hidden" popup
+                <a class="in"   href="/files_upload/html/file_name.html">Upload?</a>                          -> link to upload a new version of the file
+                <a class="out"  href="/files_download/html/file_name.html">Download?</a>                      -> link to download and edit the file in it's current state
+            </div>                                                                               -> end of the "hidden" popup
+        </div>                                                                                   -> end of the files
+
+    */
+    fetch("http://127.0.0.1:8080/admin/file_data_loader" /*, options */)
+    .then((response) => response.text())
+    .then((html) => {
+        document.getElementById("file").innerHTML = html;
+    })
+    .catch((error) => {
+        console.warn("error: ", error);
+    });
+    //document.getElementById("file").outerHTML = content;
+}
+        </script>
+    </head>
+    <body>
+
+        <!--
+            navbar, this will be on every admin page to help uses naviagte around
+        -->
+        <ul>
+            <li><a href="/admin/main/view_page">Pages</a></li>
+            <li><a href="/admin/admin_index">Admin</a></li>
+            <li><a href="https://placeholder.com">Plugins</a></li>
+            <li><a href="https://placeholder.com">Toutorial</a></li>
+            <li><a href="/admin/main/stats.html">Stats</a></li>
+        </ul>
+
+        <button onclick="load_files()">Load Files!</button>
+        <!--
+            the div is just used to add the text too it
+        -->
+        <div id="file" class="file">
+        </div>
+    </body>
+</html>
