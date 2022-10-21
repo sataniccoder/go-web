@@ -16,7 +16,7 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] image support
 - [X] video support
 - [X] add a config and a config reader
-- [ ] add a control pannel w/ login
+- [X] add a control pannel w/ login
 - [ ] abllity to add new files using control pannel
 - [ ] edit source code and add new lines using control pannel
 - [ ] check for updates whilst using control pannel
@@ -28,7 +28,12 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 the recent update info about go-web!  
 . simple fixes to help speed up and use less proccesing when runing  
 . simple typo fixes (there will lot's more to come)  
-. upgraded all go-web functions to use http.ServFile instead of the method before  
-. added more documentation to help developers use it  
-. added the basic outline of the admin pannels  
-. fixed a bug with css in admin html files  
+. added pin generation for the admin login page
+. added the ability to see the html files
+
+# Coming up
+. ablility to download and upload files
+. ability to change the login pin from the admin panel
+. ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)
+
+
