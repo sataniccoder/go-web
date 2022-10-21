@@ -32,8 +32,8 @@ the recent update info about go-web!
 . added the ability to see the html files
 
 # Coming up
-. ablility to download and upload files
-. ability to change the login pin from the admin panel
-. ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)
+. ablility to download and upload files  
+. ability to change the login pin from the admin panel  
+. ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)  
 
 
