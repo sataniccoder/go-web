@@ -17,10 +17,9 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] video support
 - [X] add a config and a config reader
 - [X] add a control pannel w/ login
+- [X] add mulit threading so the service doesn't get over run
 - [ ] abllity to add new files using control pannel
-- [ ] edit source code and add new lines using control pannel
 - [ ] check for updates whilst using control pannel
-- [ ] add mulit threading so the service doesn't get over run
 - [ ] make https secure
 - [ ] secure the program to patch any venruabiliyies that pop-up
 
@@ -28,12 +27,12 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 the recent update info about go-web!  
 . simple fixes to help speed up and use less proccesing when runing  
 . simple typo fixes (there will lot's more to come)  
-. added pin generation for the admin login page
-. added the ability to see the html files
+. you can now download html files
+. the ability to genrate a new admin pin (terminal warns you that another one has been made)
 
 # Coming up
-. ablility to download and upload files  
-. ability to change the login pin from the admin panel  
+. ablility to upload files  
 . ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)  
+. ability to easly create post pages (trying to make a scriping language for it [PROBABLY WILL CHANGE AND WON'T BE USED])
 
 
