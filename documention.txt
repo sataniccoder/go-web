@@ -1,0 +1,42 @@
+welcome to go-web!
+this is a documention guide for the program
+coverd in this document:
+    1) add more files and where to put them
+    2) admin portal
+    3) get pages
+    4) post pages
+
+
+1:
+to add more files to go-web! it's simple!
+get:
+	html -> go-web/templates/html
+	css  -> go-web/templates/css
+	img  -> go-web/templates/img
+	vid  -> go-web/templates/vid (BEST TO USE EXTERNAL LINK!)
+post:
+	html -> go-web/templates/post/html
+	css  -> refere to get
+	img  -> refere to get
+	vid  -> refere to get
+admin:
+	html -> go-web/templates/admin/html
+	css  -> go-web/templates/admin/css
+	img  -> go-web/templates/admin/img (currently uses get)
+	vid  -> go-web/templates/admin/vid (currently uses get)
+
+2:
+the admin portal is where you can monitor your site change html files or add more!
+using it's simple as well! use the pin go-web genrates for you and browse the pages!
+
+3:
+get pages don't require you to add anthing new to the actual go-web program
+just add the html file or edit them and the next time somone loads it, it will be updated!
+
+4:
+post url's so far do require you to update the post.go file but NOTHING else
+this is to make it esier on you! if you really wanted to add a new function you can update
+go-web.go to allow you too
+example:
+    go-web.go
+

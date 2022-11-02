@@ -6,11 +6,6 @@ import (
 	"time"
 )
 
-var html []string
-var css []string
-var admin_html []string
-var admin_css []string
-
 // genrate admin pin code for development
 // used for accsesign the admin page
 // eventually a user name and password system will be made but for now we won't use that

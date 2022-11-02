@@ -1,10 +1,20 @@
 package admingo
 
+/*
+admin standerd
+all admin html pages must start with admin_
+*/
+
 import (
+	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
+	"strings"
 )
 
 // WARNING: this will be changes for the futer
@@ -13,21 +23,35 @@ var login_pin string
 var verb string
 var cookie string
 
+// simple coockie checker funciton
+func Cookie_check(r *http.Request) bool {
+	chk, er := r.Cookie("admin")
+
+	if er != nil {
+		return false
+	} else if chk.Value == cookie {
+		return true
+	} else {
+		return false
+	}
+}
+
 // set the local data
 func Set_data(user string, ver string) {
 	login_pin = user
+	cookie = user
 	verb = ver
-	cookie_gen()
+	//Cookie_gen()
 }
 
 // admin help functions
-func cookie_gen() {
+func Cookie_gen() {
 	cookie = "admin_cookie"
 }
 
 // handle the login form
 func Serv_login_page(w http.ResponseWriter, r *http.Request) {
-	content, err := ioutil.ReadFile("templates/admin/html/login.html")
+	content, err := ioutil.ReadFile("templates/admin/html/admin_login.html")
 
 	// if there is an error then the page either doesn't exisst ot there's an internal error
 	// best to make the user belive it doesn't exsist and return the accchtual error
@@ -55,9 +79,9 @@ func Handle_login(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("pin!")
 		}
 		// send the main admin.html page and send a login auth cookie
-		cookie_main := http.Cookie{Name: "admin", Value: cookie, Path: "/", MaxAge: 1800} //, Expires: Nil}
+		cookie_main := http.Cookie{Name: "admin", Value: cookie, Path: "/admin/", MaxAge: 1000} // Expires:}
 		http.SetCookie(w, &cookie_main)
-		http.Redirect(w, r, "/admin/admin_index", 301)
+		http.Redirect(w, r, "/admin/admin_index", 302)
 
 		// this will be loaded in case the user doesn't get redirected
 		redir := `
@@ -88,16 +112,10 @@ func Handle_login(w http.ResponseWriter, r *http.Request) {
 
 // main admin page
 func Admin_page(w http.ResponseWriter, r *http.Request) {
-	chk, er := r.Cookie("admin")
-
-	if er != nil {
-		http.Redirect(w, r, "/admin/login.html", 302)
-	}
-
-	if chk.Value == cookie {
+	if Cookie_check(r) {
 		http.ServeFile(w, r, "templates/admin/html/admin_index.html")
 	} else {
-		http.Redirect(w, r, "/admin/login.html", 301)
+		http.Redirect(w, r, "/admin/login.html", 302)
 	}
 }
 
@@ -113,16 +131,98 @@ func Css_handle(w http.ResponseWriter, r *http.Request) {
 
 // admin file viewer
 func File_viewr(w http.ResponseWriter, r *http.Request) {
-	chk, er := r.Cookie("admin")
-
-	if er != nil {
-		http.Redirect(w, r, "/admin/login.html", 302)
-	}
-
-	if chk.Value == cookie {
+	if Cookie_check(r) {
 		http.ServeFile(w, r, "templates/admin/html/admin_file_view.html")
 	} else {
-		http.Redirect(w, r, "/admin/login.html", 301)
+		http.Redirect(w, r, "/admin/login.html", 302)
+	}
+}
+
+// file download
+func File_send(w http.ResponseWriter, r *http.Request) {
+	if Cookie_check(r) {
+		// get the file name
+		file_name := r.URL.Query().Get("file")
+
+		// check if the file_name is null or not
+		if file_name == "" {
+			http.Redirect(w, r, "/admin/main/view_page", 302)
+		}
+
+		path := "templates/"
+		// check what file type it is
+		// and determin if it's admin or not and if it's html or css
+		// we wont send img's or vid's as that would take up too much space and doesn't really matter
+		if strings.Contains(file_name, ".html") {
+			// its html but now check if its admin
+			if strings.Contains(file_name, "admin") {
+				path = path + "admin/html/" + file_name
+				// its admin
+			} else {
+				// not admin
+				path = path + "html/" + file_name
+			}
+		} else if strings.Contains(file_name, ".css") {
+			// its css but now check if its admin
+			if strings.Contains(file_name, "admin") {
+				// its admin
+				path = path + "admin/css/" + file_name
+			} else {
+				// not admin
+				path = path + "css/" + file_name
+			}
+
+		}
+
+		// read and send the file to the user
+		send_file, err := os.Open(path)
+		defer send_file.Close()
+		if err != nil {
+			//File not found, send 404
+			http.Error(w, "File not found. Redicrecting...", 404)
+			http.Redirect(w, r, "/admin/main/view_page", 302)
+		}
+		// max file size for start will be 1mb, html and css files should never reach this size tho
+		file := make([]byte, 1024)
+		send_file.Read(file)
+
+		file_content := http.DetectContentType(file)
+
+		// get the file size
+		FileStat, _ := send_file.Stat()
+		FileSize := strconv.FormatInt(FileStat.Size(), 10)
+		// send the headers
+		w.Header().Set("Content-Disposition", "attachment; filename="+file_name)
+		w.Header().Set("Content-Type", file_content)
+		w.Header().Set("Content-Length", FileSize)
+		// send the file
+		// we read 1024 bytes from the file already, so we reset the offset back to 0
+		send_file.Seek(0, 0)
+		// send the file
+		io.Copy(w, send_file)
+	} else {
+		http.Redirect(w, r, "/admin/login.html", 302)
+	}
+}
+
+// file downloader
+func update_file(data string, name string) {
+	if _, err := os.Stat(name); err == nil {
+		file, err := os.Create(name)
+
+		if err != nil {
+			fmt.Println("[!!] ", err)
+		} else {
+			file.WriteString(data)
+		}
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("[!!] " + name + " does not exsist!")
+	}
+}
+
+func Donwload(w http.ResponseWriter, r *http.Request) {
+	if Cookie_check(r) {
+
 	}
 }
 
@@ -132,6 +232,10 @@ var admin_html []string
 var admin_css []string
 
 func File_code_gen(w http.ResponseWriter, r *http.Request) {
+	if !Cookie_check(r) {
+		http.Redirect(w, r, "/admin/login.html", 302)
+	}
+
 	var code string
 
 	html = Get_list(html, "templates/html")
@@ -161,16 +265,18 @@ func Get_list(lis []string, fil string) []string {
 }
 
 func Gen_div_code(file_name string) string {
+	// simple div code gen for the file viwer
 	return `
 	<button type="button" class="collapsible" onclick="pop_js()">` + file_name + `</button>
 	<div class="content">
 		<p>Download or Upload? Click the buttons below</p>
-		<a href="/files_upload/html/` + file_name + `">Upload?</a>
-		<a href="/files_download/html/` + file_name + `">Download?</a>
+		<a href="/files_upload/html/?file=` + file_name + `">Upload?</a>
+		<a href="/files_download/html/?file=` + file_name + `">Download?</a>
 	</div>
 	`
 }
 
+// TODO: make it simpler
 func Gen_html_code() string {
 	var html_code string
 

@@ -1,12 +1,21 @@
 body {
-  background-color: gray;
-  color: darkgreen;
+  background-color: rgb(75, 75, 75);
+  color: rgb(0, 0, 0);
 }
 
-/* Bordered form */
 p {
   text-align: center;
 }
+
+h3{
+  text-align: center;
+}
+a{
+  color: aqua;
+}
+
+/* Bordered form */
+
 form {
     border: 3px solid #f1f1f1;
   }
