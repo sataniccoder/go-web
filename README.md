@@ -34,5 +34,6 @@ the recent update info about go-web!
 . ablility to upload files  
 . ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)  
 . ability to easly create post pages (trying to make a scriping language for it [PROBABLY WILL CHANGE AND WON'T BE USED])
+. docker container and python script to run it (makes it simple)
 
 
