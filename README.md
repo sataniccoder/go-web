@@ -8,7 +8,7 @@ reactive
 to start it jusr edit the index.html and the main.css to what you would like and then run the program!
 
 # run
-simple run `go run go-web.go` or to compile ans run it use `go build go-web.go && ./go-web` or 'python3 comp.py' to run in docker
+simple run `go run go-web.go` or to compile ans run it use `go build go-web.go && ./go-web` or `python3 comp.py` to run in docker
 
 # TO-DO
 - [X] basic hosting service
