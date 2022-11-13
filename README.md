@@ -8,7 +8,7 @@ reactive
 to start it jusr edit the index.html and the main.css to what you would like and then run the program!
 
 # run
-simple run `go run go-web.go` or to compile ans run it use `go build go-web.go && ./go-web`
+simple run `go run go-web.go` or to compile ans run it use `go build go-web.go && ./go-web` or 'python3 comp.py' to run in docker
 
 # TO-DO
 - [X] basic hosting service
@@ -18,22 +18,25 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] add a config and a config reader
 - [X] add a control pannel w/ login
 - [X] add mulit threading so the service doesn't get over run
-- [ ] abllity to add new files using control pannel
+- [X] abllity to add new files using control pannel
 - [ ] check for updates whilst using control pannel
 - [ ] make https secure
 - [ ] secure the program to patch any venruabiliyies that pop-up
 
 # Update Info
 the recent update info about go-web!  
-. simple fixes to help speed up and use less proccesing when runing  
-. simple typo fixes (there will lot's more to come)  
-. you can now download html files
-. the ability to genrate a new admin pin (terminal warns you that another one has been made)
-
+. added the ability to upload new files
+. added docker support
+. post pages support
 # Coming up
-. ablility to upload files  
 . ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)  
-. ability to easly create post pages (trying to make a scriping language for it [PROBABLY WILL CHANGE AND WON'T BE USED])
-. docker container and python script to run it (makes it simple)
+. ability to check for newer verisons and update the program
+. ability to restart & re-compile to program in the admin page
+. complete redesing of the admin page
+. code refractoriing to make it easier to read
 
+# Reqierments (what i use on my laptop)
+CPU: Intel(R) Pentium(R) CPU  N3700  @ 1.60GHz (can use it on something lower as well, as it uses 0.5% of my CPU when examing with top)    
+RAM: 8 GIG of ram    
+this is far more then it achtualy needs, you could run this on a RPI4    
 
