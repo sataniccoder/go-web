@@ -140,69 +140,68 @@ func File_viewr(w http.ResponseWriter, r *http.Request) {
 
 // file download
 func File_send(w http.ResponseWriter, r *http.Request) {
-	if Cookie_check(r) {
-		// get the file name
-		file_name := r.URL.Query().Get("file")
-
-		// check if the file_name is null or not
-		if file_name == "" {
-			http.Redirect(w, r, "/admin/main/view_page", 302)
-		}
-
-		path := "templates/"
-		// check what file type it is
-		// and determin if it's admin or not and if it's html or css
-		// we wont send img's or vid's as that would take up too much space and doesn't really matter
-		if strings.Contains(file_name, ".html") {
-			// its html but now check if its admin
-			if strings.Contains(file_name, "admin") {
-				path = path + "admin/html/" + file_name
-				// its admin
-			} else {
-				// not admin
-				path = path + "html/" + file_name
-			}
-		} else if strings.Contains(file_name, ".css") {
-			// its css but now check if its admin
-			if strings.Contains(file_name, "admin") {
-				// its admin
-				path = path + "admin/css/" + file_name
-			} else {
-				// not admin
-				path = path + "css/" + file_name
-			}
-
-		}
-
-		// read and send the file to the user
-		send_file, err := os.Open(path)
-		defer send_file.Close()
-		if err != nil {
-			//File not found, send 404
-			http.Error(w, "File not found. Redicrecting...", 404)
-			http.Redirect(w, r, "/admin/main/view_page", 302)
-		}
-		// max file size for start will be 1mb, html and css files should never reach this size tho
-		file := make([]byte, 1024)
-		send_file.Read(file)
-
-		file_content := http.DetectContentType(file)
-
-		// get the file size
-		FileStat, _ := send_file.Stat()
-		FileSize := strconv.FormatInt(FileStat.Size(), 10)
-		// send the headers
-		w.Header().Set("Content-Disposition", "attachment; filename="+file_name)
-		w.Header().Set("Content-Type", file_content)
-		w.Header().Set("Content-Length", FileSize)
-		// send the file
-		// we read 1024 bytes from the file already, so we reset the offset back to 0
-		send_file.Seek(0, 0)
-		// send the file
-		io.Copy(w, send_file)
-	} else {
+	if !Cookie_check(r) {
 		http.Redirect(w, r, "/admin/login.html", 302)
 	}
+	// get the file name
+	file_name := r.URL.Query().Get("file")
+
+	// check if the file_name is null or not
+	if file_name == "" {
+		http.Redirect(w, r, "/admin/main/view_page", 302)
+	}
+
+	path := "templates/"
+	// check what file type it is
+	// and determin if it's admin or not and if it's html or css
+	// we wont send img's or vid's as that would take up too much space and doesn't really matter
+	if strings.Contains(file_name, ".html") {
+		// its html but now check if its admin
+		if strings.Contains(file_name, "admin") {
+			path = path + "admin/html/" + file_name
+			// its admin
+		} else {
+			// not admin
+			path = path + "html/" + file_name
+		}
+	} else if strings.Contains(file_name, ".css") {
+		// its css but now check if its admin
+		if strings.Contains(file_name, "admin") {
+			// its admin
+			path = path + "admin/css/" + file_name
+		} else {
+			// not admin
+			path = path + "css/" + file_name
+		}
+
+	}
+
+	// read and send the file to the user
+	send_file, err := os.Open(path)
+	defer send_file.Close()
+	if err != nil {
+		//File not found, send 404
+		http.Error(w, "File not found. Redicrecting...", 404)
+		http.Redirect(w, r, "/admin/main/view_page", 302)
+	}
+	// max file size for start will be 1mb, html and css files should never reach this size tho
+	file := make([]byte, 1024)
+	send_file.Read(file)
+
+	file_content := http.DetectContentType(file)
+
+	// get the file size
+	FileStat, _ := send_file.Stat()
+	FileSize := strconv.FormatInt(FileStat.Size(), 10)
+	// send the headers
+	w.Header().Set("Content-Disposition", "attachment; filename="+file_name)
+	w.Header().Set("Content-Type", file_content)
+	w.Header().Set("Content-Length", FileSize)
+	// send the file
+	// we read 1024 bytes from the file already, so we reset the offset back to 0
+	send_file.Seek(0, 0)
+	// send the file
+	io.Copy(w, send_file)
 }
 
 // file downloader
@@ -221,9 +220,81 @@ func update_file(data string, name string) {
 }
 
 func Donwload(w http.ResponseWriter, r *http.Request) {
-	if Cookie_check(r) {
-
+	if !Cookie_check(r) {
+		http.Redirect(w, r, "/admin/login.html", 302)
 	}
+
+	// send the upload form to the user
+	http.ServeFile(w, r, "templates/admin/html/admin_send_file_form.html")
+	// serv the templates/admin/css/main.css file to the user
+	http.ServeFile(w, r, "templates/admin/css/main.css")
+
+}
+
+func Get_download(w http.ResponseWriter, r *http.Request) {
+	if !Cookie_check(r) {
+		http.Redirect(w, r, "/admin/login.html", 302)
+	}
+
+	// get the new file
+	fmt.Println("File Upload Endpoint Hit")
+
+	// Parse our multipart form, 10 << 20 specifies a maximum
+	// upload of 10 MB files.
+	r.ParseMultipartForm(10 << 20)
+	// FormFile returns the first file for the given key `myFile`
+	// it also returns the FileHeader so we can get the Filename,
+	// the Header and the size of the file
+	file, handler, err := r.FormFile("myFile")
+	if err != nil {
+		fmt.Println("Error Retrieving the File")
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+	// work out the file path
+	file_name := handler.Filename
+
+	path := "templates/"
+	if strings.Contains(file_name, ".html") {
+		// its html but now check if its admin
+		tmp := strings.Split(file_name, ".html")
+		file_name = tmp[0] + ".html"
+		if strings.Contains(file_name, "admin") {
+			path = path + "admin/html/" + file_name
+			// its admin
+		} else {
+			// not admin
+			path = path + "html/" + file_name
+		}
+	} else if strings.Contains(file_name, ".css") {
+		// its css but now check if its admin
+		tmp := strings.Split(file_name, ".css")
+		file_name = tmp[0] + ".css"
+		if strings.Contains(file_name, "admin") {
+			path = path + "admin/html/"
+			// its admin
+		} else {
+			// not admin
+			path = path + "html/"
+		}
+	}
+	//fmt.Printf("Uploaded File: %+v\n", handler.Filename)
+	//fmt.Printf("File Size: %+v\n", handler.Size)
+	//fmt.Printf("MIME Header: %+v\n", handler.Header)
+	// write the file to the server
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
+	io.Copy(f, file)
+	// redirect the user to the admin page
+	http.Redirect(w, r, "/admin/main/view_page", 302)
+
+	// return that we have successfully uploaded our file!
+	fmt.Fprintf(w, "Successfully Uploaded File\n")
 }
 
 var html []string
@@ -270,8 +341,8 @@ func Gen_div_code(file_name string) string {
 	<button type="button" class="collapsible" onclick="pop_js()">` + file_name + `</button>
 	<div class="content">
 		<p>Download or Upload? Click the buttons below</p>
-		<a href="/files_upload/html/?file=` + file_name + `">Upload?</a>
-		<a href="/files_download/html/?file=` + file_name + `">Download?</a>
+		<a href="/admin/files_upload/html/">Upload?</a>
+		<a href="/admin/files_download/html/?file=` + file_name + `">Download?</a>
 	</div>
 	`
 }
@@ -289,8 +360,8 @@ func Gen_html_code() string {
 			<button type="button" class="collapsible" onclick="pop_js()">(file name)</button>
 			<div class="content">
 				<p>Download or Upload? Click the buttons below</p>
-				<a href="/files_upload/html/(file name)">Upload?</a>
-				<a href="/files_download/html/(file name)">Download?</a>
+				<a href="/admin/files_upload/html/(file name)">Upload?</a>
+				<a href="/admin/files_download/html/(file name)">Download?</a>
 			</div>
 			+more for each file
 		</div>

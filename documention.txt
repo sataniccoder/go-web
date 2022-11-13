@@ -40,3 +40,15 @@ go-web.go to allow you too
 example:
     go-web.go
 
+
+
+
+ADMIN HELP:
+admin function template 
+func New_admin_function(w http.ResponseWriter, r *http.Request) {
+	if !Cookie_check(r) {
+		http.Redirect(w, r, "/admin/login.html", 302) // not and admin
+	}
+
+	// there a admin and can accses the rest of the function
+}
