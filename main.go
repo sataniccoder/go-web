@@ -43,6 +43,7 @@ func gen_new_pin(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+
 	// set everythign up
 	// setupt the admin pin
 	admin_pin := pin.Gen_code()
@@ -54,6 +55,9 @@ func main() {
 	verb = data_list[9]
 	admin.Set_data(admin_pin, verb)
 
+	// genrate the certs
+	pin.Gen_cert()
+
 	fmt.Print("\033[H\033[2J")
 	fmt.Print(`
 
@@ -63,6 +67,7 @@ func main() {
 	88  ooo 88    88 C8888D Y8   I8I   88 88~~~~~ 88~~~b. 
 	88. ~8~  8b  d8'         8b d8'8b d8' 88.     88   8D 
 	 Y888P    Y88P'           8b8' '8d8'  Y88888P Y8888P' 
+
 
 					VERSION: 0.3
 
@@ -74,11 +79,13 @@ HOW TO STORE:
 	vid  -> go-web/templates/vid (BEST TO USE EXTERNAL LINK!)
 
 
-url: http://127.0.0.1:` + data_list[1] + `/index.html
-adming url: http://127.0.0.1:` + data_list[1] + `/admin/login.html
+url: https://127.0.0.1:` + data_list[1] + `/index.html
+adming url: https://127.0.0.1:` + data_list[1] + `/admin/login.html
 adming pin: ` + admin_pin + ` (you can request another one on the admin portal)
-	
-    `)
+cert: certs/cert.cnf, certs/full-cert.crt, /private-key.key (not shown in an url)
+[WARNING] the current cert.cnf file will create a insecure cert! (change the data in it to make it valid)
+
+	`)
 	fmt.Println()
 	go http.HandleFunc("/", get.Load_page)
 	// put POST url's here
@@ -107,7 +114,8 @@ adming pin: ` + admin_pin + ` (you can request another one on the admin portal)
 
 	// user post url
 	go http.HandleFunc("/post/", post.Main_Post)
-	go log.Fatal(http.ListenAndServe(":"+data_list[1], nil))
+	log.Fatal(http.ListenAndServeTLS(":"+data_list[1], "certs/server.crt", "certs/server.key", nil))
+
 }
 
 /*

@@ -52,8 +52,6 @@ func Load_page(w http.ResponseWriter, r *http.Request) {
 		} else {
 			path = "templates/css/" + path
 		}
-
-		fmt.Println(path)
 		http.ServeFile(w, r, path)
 
 	} else if strings.Contains(path, "img") {

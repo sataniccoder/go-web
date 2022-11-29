@@ -22,8 +22,6 @@ post:
 admin:
 	html -> go-web/templates/admin/html
 	css  -> go-web/templates/admin/css
-	img  -> go-web/templates/admin/img (currently uses get)
-	vid  -> go-web/templates/admin/vid (currently uses get)
 
 2:
 the admin portal is where you can monitor your site change html files or add more!
@@ -52,3 +50,39 @@ func New_admin_function(w http.ResponseWriter, r *http.Request) {
 
 	// there a admin and can accses the rest of the function
 }
+
+POST help:
+for adding new post functions you need to update the post.go file
+it's quite simple, here is an example of a post.go file with a post url
+
+func Main_Post(w http.ResponseWriter, r *http.Request) {
+	// put your function url in here like this
+	// the reason why we do this is to make it easier for the end user (you) to add post urls
+	// it makes the code cleaner and means you only have to handle one go file instead of a bunch
+	// plus it still aloows you too (if you really wanted too) add your own post urls in the go-web.go file
+	// REMBER: every new post url you add you must recompile the code for it to be reconized, you can also do this in the admin pannel
+
+	// you can remove this and add your own post urls here
+	if r.URL.Path == "/post/example" {
+		post_example(w, r)
+	}
+
+}
+
+// you can remove this function and add your own post url functions here
+func post_example(w http.ResponseWriter, r *http.Request) {
+	// example post function
+	fmt.Fprintf(w, "hello world")
+}
+
+
+this is also in the post.go file at the start, unless you change it :)
+
+
+
+
+
+HTTPS certifacate:
+to use https with a certifacate you will need to edit the cert.cnf file in the certs/ folder
+or install the go-web-setup.py file from my github page, this cmd tool has a bunch of fetures 
+to make it esier to setup your go-web! server

@@ -1,7 +1,9 @@
 package utilgo
 
 import (
+	"fmt"
 	"math/rand"
+	"os/exec"
 	"strconv"
 	"time"
 )
@@ -26,4 +28,16 @@ func Gen_code() string {
 
 	return strconv.Itoa(a) + "-" + strconv.Itoa(b) + "-" + strconv.Itoa(c)
 
+}
+
+// https enebler
+func Gen_cert() {
+	// gen the cert using openssl and save them too full-cert.crt, private-key.key files
+	// genrate a conifg file for the certificats in certs/
+
+	fmt.Println("[*] genrating certs (make sure to edit the cert.cnf file)")
+	cmd := exec.Command("openssl", "genrsa", "-out", "certs/server.key", "2048")
+	cmd.Run()
+	cmd = exec.Command("openssl", "req", "-config", "certs/cert.cnf", "-new", "-x509", "-sha256", "-key", "certs/server.key", "-out", "certs/server.crt", "-days", "365")
+	cmd.Run()
 }
