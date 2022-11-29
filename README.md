@@ -19,15 +19,15 @@ simple run `go run go-web.go` or to compile ans run it use `go build go-web.go &
 - [X] add a control pannel w/ login
 - [X] add mulit threading so the service doesn't get over run
 - [X] abllity to add new files using control pannel
+- [X] make https secure
 - [ ] check for updates whilst using control pannel
-- [ ] make https secure
 - [ ] secure the program to patch any venruabiliyies that pop-up
 
 # Update Info
 the recent update info about go-web!  
-. added the ability to upload new files
-. added docker support
-. post pages support
+. better documention in documentation.txt
+. https support
+. setup script found in scripts/ (this is where autu gen scripts will be added)
 # Coming up
 . ability to restart the program from the admin pannel (if you make new changes too it, it would recompile and excute it)  
 . ability to check for newer verisons and update the program
