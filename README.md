@@ -1,3 +1,6 @@
+# IMPORTANT NEW
+go-web is being redesing by me, i am doing this to make it easier to add fetures, the entire system will reamain the same and hosting will still be the same, the code is just being re-written to make it esier to read and write, enjoy :)
+
 # go-web
 a static website hosting service in golang, this is mainly used for remote deployment, this means once you have set the program up with a user and password
 you can accses the control pannel from your browser, from there you can add new pages, update the programs source code and much more!
